@@ -4,14 +4,21 @@ from flask_cors import CORS
 from google import genai
 from google.genai import types
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv  # <--- NEW IMPORT
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-# 1. Setup Client (New Library Syntax)
-# Make sure your API key is correct here!
-os.environ["GOOGLE_API_KEY"] = "AIzaSyCN5558zpd0UDi2nTJOhsoDZakRT_xKmwU"
-client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+API_KEY = os.getenv("GOOGLE_API_KEY")
+
+if not API_KEY:
+    # This helps debug if the .env file isn't loading
+    print("❌ ERROR: API Key not found. Did you create the .env file?")
+    raise ValueError("No API Key found! Make sure GOOGLE_API_KEY is set in .env")
+
+client = genai.Client(api_key=API_KEY)
 
 @app.route('/translate', methods=['POST'])
 def translate_audio():
