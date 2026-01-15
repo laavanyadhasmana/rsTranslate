@@ -1,0 +1,11 @@
+# Ignore Mac system files
+.DS_Store
+
+# Ignore Python junk
+server/venv/
+server/__pycache__/
+*.pyc
+
+# Ignore Node junk
+mobile-app/node_modules/
+mobile-app/.expo/
